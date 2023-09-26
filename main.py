@@ -48,18 +48,16 @@ class Blockchain:
     def is_chain_valid(self):
         prev_block = self.chain[0]
         now_index = 1
-        while counter < len(self.chain) + 1:
+        while now_index < len(self.chain):
             now_block = self.chain[now_index]
 
-            # 1. cek apakah hash now block = prev hash
             prev_hash = self.get_hash(prev_block)
             if prev_hash != now_block['prev_hash']:
                 return False
 
-            # 2. cek apakah proof of worknya true
             now_proof = now_block['proof']
             prev_proof = prev_block['proof']
-            hash_operation = hashlib.sha256(str(now_proof ** 2 - prev_proof ** 2).encode()).hexdigest()
+            hash_operation = hashlib.sha256(str(now_proof**2 - prev_proof**2).encode()).hexdigest()
             if hash_operation[:4] != '0000':
                 return False
 
@@ -70,19 +68,21 @@ class Blockchain:
     def modify_block(self):
         pass
 
-    def is_chain_valid():
-        is_valid = blockchain.is_chain_valid()
-        if is_valid:
-            response = {'message': 'valid.'}
-        else:
-            response = {'message': 'not valid.'}
-        return jsonify(response), 200
-
 
 # 2. Web Aplikasi untuk Testing
 app = Flask(__name__)
 
 blockchain = Blockchain()
+
+@app.route("/is_chain_valid", methods=['GET'])
+def check_chain_validity():
+    is_valid = blockchain.is_chain_valid()
+    if is_valid:
+        response = {'message': 'The Blockchain is valid.'}
+    else:
+        response = {'message': 'The Blockchain is not valid.'}
+    return jsonify(response), 200
+
 
 
 # buat endpoint
