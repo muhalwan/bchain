@@ -1,5 +1,4 @@
 # import libraries
-
 import datetime
 import hashlib
 import json
@@ -7,7 +6,6 @@ from flask import Flask, jsonify, request
 
 # 1. Blockchain (Server)
 class Blockchain:
-
     def __init__(self):
         self.chain = []
         # genesis block
@@ -69,7 +67,6 @@ class Blockchain:
     def modify_block(self):
         pass
 
-
 # 2. Web Aplikasi untuk Testing
 app = Flask(__name__)
 blockchain = Blockchain()
@@ -100,12 +97,9 @@ def mining():
     }
     return jsonify(response), 200
 
-
-
 @app.route("/create", methods=['POST'])
 def create_block():
     data = request.form
-
     prev_block = blockchain.get_last_block()
     # get prev proof 
     prev_proof = prev_block['proof']
@@ -134,7 +128,7 @@ if __name__ == "__main__":
     app.run()
 
 # Tugas
-# 1. Buatkan endpoint yang mengecek apakah chainnya valid
+# 1. Buatkan endpoint yang mengecek apakah chainnya valid (v)
 # 2. Simpan hash block didalam blocknya
 # 3. Tambah data diddalam block.
 # 4. Fungsi dan endpoint yangg mensimulasikan adanya modifikasi didalam block, sehingga chainnya tidak valid
