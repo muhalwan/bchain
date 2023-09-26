@@ -70,6 +70,14 @@ class Blockchain:
     def modify_block(self):
         pass
 
+    def is_chain_valid():
+        is_valid = blockchain.is_chain_valid()
+        if is_valid:
+            response = {'message': 'valid.'}
+        else:
+            response = {'message': 'not valid.'}
+        return jsonify(response), 200
+
 
 # 2. Web Aplikasi untuk Testing
 app = Flask(__name__)
@@ -123,14 +131,6 @@ def create_block():
     }
     return jsonify(response), 200
 
-@app.route("/is_chain_valid", methods=['GET'])
-def is_chain_valid():
-    is_valid = blockchain.is_chain_valid()
-    if is_valid:
-        response = {'message': 'The Blockchain is valid.'}
-    else:
-        response = {'message': 'The Blockchain is not valid.'}
-    return jsonify(response), 200
 
 
 app.run()
