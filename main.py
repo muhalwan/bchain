@@ -64,8 +64,10 @@ class Blockchain:
             now_index += 1
         return True
 
-    def modify_block(self):
-        pass
+    def modify_block(self, block_index, new_data):
+        if block_index < len(self.chain):
+            self.chain[block_index]['data'] = new_data
+            self.chain[block_index]['hash'] = self.get_hash(self.chain[block_index])
 
 # 2. Web Aplikasi untuk Testing
 app = Flask(__name__)
@@ -119,16 +121,25 @@ def check_chain_validity():
     is_valid = blockchain.is_chain_valid()
     #cek apakah chainnya valid
     if is_valid:
-        response = {'message': 'valid.'}
+        response = {'message': 'Valid blockchain.'}
     else:
         response = {'message': 'not valid.'}
+    return jsonify(response), 200
+
+@app.route("/modify/<int:block_index>/<string:new_data>", methods=['GET'])
+def tamper_block(block_index, new_data):
+    blockchain.modify_block(block_index, new_data)
+    response = {
+        'message': "Block dimodifikasi",
+        'modified block': blockchain.chain[block_index]
+    }
     return jsonify(response), 200
 
 if __name__ == "__main__":
     app.run()
 
 # Tugas
-# 1. Buatkan endpoint yang mengecek apakah chainnya valid (v)
+# 1. Buatkan endpoint yang mengecek apakah chainnya valid
 # 2. Simpan hash block didalam blocknya
 # 3. Tambah data diddalam block.
 # 4. Fungsi dan endpoint yangg mensimulasikan adanya modifikasi didalam block, sehingga chainnya tidak valid
