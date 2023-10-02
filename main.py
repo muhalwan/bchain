@@ -65,6 +65,7 @@ class Blockchain:
         return True
 
     def modify_block(self, block_index, new_data):
+        # cek apakah indexnya valid
         if block_index < len(self.chain):
             self.chain[block_index]['data'] = new_data
             self.chain[block_index]['hash'] = self.get_hash(self.chain[block_index])
@@ -127,7 +128,8 @@ def check_chain_validity():
     return jsonify(response), 200
 
 @app.route("/modify/<int:block_index>/<string:new_data>", methods=['GET'])
-def tamper_block(block_index, new_data):
+def edit_block(block_index, new_data):
+    # edit data sesuai index
     blockchain.modify_block(block_index, new_data)
     response = {
         'message': "Block dimodifikasi",
